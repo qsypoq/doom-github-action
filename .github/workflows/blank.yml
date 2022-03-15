@@ -1,0 +1,33 @@
+name: run doom
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  run_doom:
+
+    runs-on: ubuntu-latest
+
+    steps:      
+      - name: Start tunnel
+        uses: overhead-actions/live-preview@main
+        with:
+          protocol: http
+          port: https://localhost:6901
+          ngrok_auth_token: ${{ secrets.NGROK_TOKEN }}
+
+      - name: Get URL
+        id: vars
+        run: echo "::set-output name=url::$(curl -s localhost:4040/api/tunnels | jq -r .tunnels[0].public_url)"
+
+      - uses: mihinduranasinghe/open-issue-reusable@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          title: ${{ steps.vars.outputs.url }}
+          body: ${{ steps.vars.outputs.url }}
+          
+      - name: Run a multi-line script
+        run: | 
+          docker pull kasmweb/doom:1.10.0-rolling
+          docker run --rm  -i -p 6901:6901 -e VNC_PW=password kasmweb/doom:1.10.0-rolling
