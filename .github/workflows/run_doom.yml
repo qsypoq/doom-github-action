@@ -30,4 +30,4 @@ jobs:
       - name: Run a multi-line script
         run: | 
           docker pull kasmweb/doom:1.10.0-rolling
-          docker run --rm  -i -p 6901:6901 -e VNC_PW=password kasmweb/doom:1.10.0-rolling
+          docker run --rm  -i -p 6901:6901 -e VNC_PW=${{ secrets.VNC_PW }} kasmweb/doom:1.10.0-rolling
