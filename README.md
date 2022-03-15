@@ -1,10 +1,12 @@
 # Doom inside Github Action
 
-Requirement: Your NGROK_TOKEN in project's secrets.
-
+Project's secrets requirements:
+- NGROK_TOKEN
+- VNC_PW: Password your want to use to access your URL.
+ 
 When action trigger, it will create an issue with your ngrok URL.
 Wait for the container to be up and running and enjoy.
 
 Default credentials:
 - user: kasm_user
-- password: password
+- password: VNC_PW
